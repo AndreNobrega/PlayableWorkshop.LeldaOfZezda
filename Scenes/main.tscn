@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://c8cw47pw4sgs2"]
+
+[ext_resource type="PackedScene" uid="uid://br15i563otwqf" path="res://Scenes/player.tscn" id="1_bo1nx"]
+[ext_resource type="PackedScene" uid="uid://diui0kkamuxbw" path="res://Meshes/test_level.glb" id="2_bo1nx"]
+[ext_resource type="AudioStream" uid="uid://def5nwld7wwfg" path="res://Audio/Music/temple.mp3" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://dv8w5g5jwiubm" path="res://Scripts/WorldSound.cs" id="3_jjvhh"]
+[ext_resource type="AudioStream" uid="uid://cm3uok3s0cse3" path="res://Audio/Footsteps/stone_step_sounds.tres" id="4_ynf5e"]
+[ext_resource type="AudioStream" uid="uid://c407u4kw4w4cc" path="res://Audio/Footsteps/wood_step_sounds.tres" id="5_hptm8"]
+[ext_resource type="AudioStream" uid="uid://bx0gidbrnvstj" path="res://Audio/Footsteps/sand_step_sounds.tres" id="6_d1ilt"]
+[ext_resource type="AudioStream" uid="uid://c5spdpke7mawv" path="res://Audio/Footsteps/dirt_step_sounds.tres" id="7_6iyac"]
+[ext_resource type="AudioStream" uid="uid://bdr5t023weth7" path="res://Audio/Footsteps/grass_step_sounds.tres" id="8_fdnlq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
+sky_top_color = Color(0.39322278, 0.6167288, 0.87116456, 1)
+sky_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+ground_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+
+[sub_resource type="Sky" id="Sky_8gbba"]
+sky_material = SubResource("ProceduralSkyMaterial_bo1nx")
+
+[sub_resource type="Environment" id="Environment_jjvhh"]
+background_mode = 2
+sky = SubResource("Sky_8gbba")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" unique_id=332095150]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=331729813]
+environment = SubResource("Environment_jjvhh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1729715825]
+transform = Transform3D(0.92454606, -0.30946097, 0.22237027, 0, 0.5835412, 0.81208354, -0.38107038, -0.75080866, 0.5395107, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 1.0
+
+[node name="Player" parent="." unique_id=1338611252 instance=ExtResource("1_bo1nx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0999994, 0)
+
+[node name="test_level" parent="." unique_id=576710176 instance=ExtResource("2_bo1nx")]
+
+[node name="StaticBody3D" parent="test_level/level" parent_id_path=PackedInt32Array(576710176, 251877459) index="0" unique_id=1723202170]
+script = ExtResource("3_jjvhh")
+FootstepSounds = ExtResource("4_ynf5e")
+
+[node name="StaticBody3D" parent="test_level/wood" parent_id_path=PackedInt32Array(576710176, 1636173600) index="0" unique_id=526753713]
+script = ExtResource("3_jjvhh")
+FootstepSounds = ExtResource("5_hptm8")
+
+[node name="StaticBody3D" parent="test_level/snow" parent_id_path=PackedInt32Array(576710176, 1345134251) index="0" unique_id=933634914]
+script = ExtResource("3_jjvhh")
+FootstepSounds = ExtResource("6_d1ilt")
+
+[node name="StaticBody3D" parent="test_level/grass" parent_id_path=PackedInt32Array(576710176, 117918808) index="0" unique_id=306350115]
+script = ExtResource("3_jjvhh")
+FootstepSounds = ExtResource("7_6iyac")
+
+[node name="StaticBody3D" parent="test_level/dirt" parent_id_path=PackedInt32Array(576710176, 1869473856) index="0" unique_id=625757725]
+script = ExtResource("3_jjvhh")
+FootstepSounds = ExtResource("8_fdnlq")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1369179783]
+stream = ExtResource("3_8gbba")
+autoplay = true
+
+[editable path="test_level"]
