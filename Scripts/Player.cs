@@ -46,25 +46,9 @@ public partial class Player : CharacterBody3D
 			velocity.Y = Player.JUMP_VELOCITY;
 		}
 
-		// Get the input direction and handle the movement/deceleration.
-		Vector2 inputDir = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
-		Vector3 direction = Camera.GlobalBasis * new Vector3(inputDir.X, 0, inputDir.Y);
-		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
-		// then multiply by how far the analog stick is pushed
-		direction = new Vector3(direction.X, 0, direction.Z).Normalized() * inputDir.Length();
-
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * RunSpeed;
-			velocity.Z = direction.Z * RunSpeed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, RunSpeed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, RunSpeed);
-		}
-
-		Velocity = velocity;
+		var direction = GetMoveInput();
+		UpdateVelocity(direction, velocity);
+		
 		MoveAndSlide();
 		TurnTo(direction);
 
@@ -85,6 +69,34 @@ public partial class Player : CharacterBody3D
 		var yaw = (float)Math.Atan2(-direction.X, -direction.Z); // convert direction into rotation
 		yaw = (float)Mathf.LerpAngle(Rotation.Y, yaw, 0.25); // interpolate, so Lunk doesn't snap between angles when using WASD
 		Rotation = new Vector3(Rotation.X, yaw, Rotation.Z);
+	}
+
+	private Vector3 GetMoveInput()
+	{
+		// Get the input direction and handle the movement/deceleration.
+		Vector2 inputDir = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
+		Vector3 direction = Camera.GlobalBasis * new Vector3(inputDir.X, 0, inputDir.Y);
+		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
+		// then multiply by how far the analog stick is pushed
+		direction = new Vector3(direction.X, 0, direction.Z).Normalized() * inputDir.Length();
+
+		return direction;
+	}
+
+	private void UpdateVelocity(Vector3 direction, Vector3 velocity)
+	{
+		if (direction != Vector3.Zero)
+		{
+			velocity.X = direction.X * RunSpeed;
+			velocity.Z = direction.Z * RunSpeed;
+		}
+		else
+		{
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, RunSpeed);
+			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, RunSpeed);
+		}
+
+		Velocity = velocity;
 	}
 
 	/// <summary>
