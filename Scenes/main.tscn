@@ -30,9 +30,8 @@ glow_enabled = true
 environment = SubResource("Environment_jjvhh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1729715825]
-transform = Transform3D(0.92454606, -0.30946097, 0.22237027, 0, 0.5835412, 0.81208354, -0.38107038, -0.75080866, 0.5395107, 0, 0, 0)
+transform = Transform3D(0.92454606, -0.309461, 0.22237025, 0, 0.5835412, 0.81208354, -0.38107038, -0.75080866, 0.5395107, 10.400001, 14.1, 22.699999)
 shadow_enabled = true
-directional_shadow_max_distance = 1.0
 
 [node name="Player" parent="." unique_id=1338611252 instance=ExtResource("1_bo1nx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0999994, 0)
