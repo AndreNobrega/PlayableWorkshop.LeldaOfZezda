@@ -12,11 +12,17 @@ public partial class IdlePlayerState : PlayerStateBase
 	{
 		if (!player.IsOnFloor())
 			player.ChangeStateTo(PlayerStates.Fall);
-		
-		var currentSpeed = player.Velocity.Length();
-		if (currentSpeed > player.RunSpeedTreshold)
-			player.ChangeStateTo(PlayerStates.Run);
-		else if (currentSpeed > 0)
+				
+		else if (player.MoveInput.Length() > 0)
 			player.ChangeStateTo(PlayerStates.Walk);
+
+		else if (Input.IsActionJustPressed(Inputs.MOVE_JUMP))
+			player.ChangeStateTo(PlayerStates.Jump);
+	}
+
+	public override void Update(Player player, double delta)
+	{
+		player.Velocity = player.Velocity.MoveToward(Vector3.Zero, player.BaseSpeed);
+		player.MoveAndSlide();
 	}
 }

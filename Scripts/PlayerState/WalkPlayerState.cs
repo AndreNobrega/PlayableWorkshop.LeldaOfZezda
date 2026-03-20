@@ -12,21 +12,30 @@ public partial class WalkPlayerState : PlayerStateBase
 
 	public override void DetermineNextState(Player player)
 	{
-		if (player.Velocity.Length() > player.RunSpeedTreshold)
-			player.ChangeStateTo(PlayerStates.Run);
+		var currentSpeed = player.Velocity.Length();
 
-		else if (player.Velocity.Length() > 0)
-			return;
-		
-		else if (player.Velocity == Vector3.Zero)
+		if (Input.IsActionJustPressed(Inputs.MOVE_JUMP))
+			player.ChangeStateTo(PlayerStates.Jump);
+
+		else if (!player.IsOnFloor())
+			player.ChangeStateTo(PlayerStates.Fall);
+
+		else if (player.MoveInput.Length() == 0)
 			player.ChangeStateTo(PlayerStates.Idle);
+
+		else if (currentSpeed > player.RunSpeed)
+			player.ChangeStateTo(PlayerStates.Run);
 	}
 
 	public override void Update(Player player, double delta)
 	{
-		var currentSpeed = player.Velocity.Length();
+		var move = player.MoveDirection * player.MoveInput.Length();
+		player.UpdateVelocity(move);
+		player.MoveAndSlide();
+		player.TurnTo(move);
 
-		var walkSpeed = Mathf.Lerp(0.5, 1.75, currentSpeed / player.RunSpeed);
+		var currentSpeed = player.Velocity.Length();
+		var walkSpeed = Mathf.Lerp(0.5, 1.75, currentSpeed / player.BaseSpeed);
 		player.AnimTree.Set(WALK_TIMESCALE, walkSpeed);
 	}
 }

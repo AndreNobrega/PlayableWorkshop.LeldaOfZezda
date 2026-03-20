@@ -4,19 +4,20 @@ using System;
 public partial class Player : CharacterBody3D
 {
 	[Export]
-	public float RunSpeed = 5.0f;
+	public float BaseSpeed = 5.0f;
 	[Export]
-	public float RunSpeedTreshold = 4.5f;
+	public float RunSpeed = 4.5f;
 	public const float JUMP_VELOCITY = 4.5f;
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
 	private AnimationPlayer _animPlayer;
 	public AnimationTree AnimTree;
-	public Vector3 Direction;
+	public Vector2 MoveInput = Vector2.Zero;
+	public Vector3 MoveDirection = Vector3.Zero;
 	public float LeanLerp;
 
 	// The current state the player is in.
-	PlayerStateBase _state;
+	PlayerStateBase _state = PlayerStates.Idle;
 
 	public override void _Ready()
 	{
@@ -25,35 +26,32 @@ public partial class Player : CharacterBody3D
 		_animPlayer = GetNode<AnimationPlayer>("Mesh/AnimationPlayer");
 		AnimTree = GetNode<AnimationTree>("AnimationTree");
 		
-		// Instantiate player state
-		_state = PlayerStates.Idle;
 		_state.Enter(this);
 	}
 	
+	// Called every physics frame. Delegates update logic to the current state.
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = Velocity;
+		// Read movement input and store it on the player.
+		MoveInput = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
 
-		// Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
+		// Calculate adjusted movement direction based on camera.
+		SetMoveDirection();
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed(Inputs.MOVE_JUMP) && IsOnFloor())
-		{
-			velocity.Y = Player.JUMP_VELOCITY;
-		}
-
-		var direction = GetMoveInput();
-		UpdateVelocity(direction, velocity);
-		
-		MoveAndSlide();
-		TurnTo(direction);
-
+		// Delegate to the current state.
 		_state.DetermineNextState(this);
 		_state.Update(this, delta);
+	}
+	
+	private void SetMoveDirection()
+	{
+		// Get the input direction and handle the movement/deceleration.
+		Vector3 direction = Camera.GlobalBasis * new Vector3(MoveInput.X, 0, MoveInput.Y);
+		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
+		// then multiply by how far the analog stick is pushed
+		direction = new Vector3(direction.X, 0, direction.Z).Normalized() * MoveInput.Length();
+
+		MoveDirection = direction;
 	}
 
 	/// <summary>
@@ -71,29 +69,23 @@ public partial class Player : CharacterBody3D
 		Rotation = new Vector3(Rotation.X, yaw, Rotation.Z);
 	}
 
-	private Vector3 GetMoveInput()
+	/// <summary>
+	/// Update the player's velocity.
+	/// </summary>
+	/// <param name="speed">(Optional) The player's speed. If null, defaults to the character's default run speed.</param>
+	public void UpdateVelocity(Vector3 direction, float? speed = null)
 	{
-		// Get the input direction and handle the movement/deceleration.
-		Vector2 inputDir = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
-		Vector3 direction = Camera.GlobalBasis * new Vector3(inputDir.X, 0, inputDir.Y);
-		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
-		// then multiply by how far the analog stick is pushed
-		direction = new Vector3(direction.X, 0, direction.Z).Normalized() * inputDir.Length();
+		Vector3 velocity = Velocity;
 
-		return direction;
-	}
-
-	private void UpdateVelocity(Vector3 direction, Vector3 velocity)
-	{
 		if (direction != Vector3.Zero)
 		{
-			velocity.X = direction.X * RunSpeed;
-			velocity.Z = direction.Z * RunSpeed;
+			velocity.X = MoveDirection.X * (speed ?? BaseSpeed);
+			velocity.Z = MoveDirection.Z * (speed ?? BaseSpeed);
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, RunSpeed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, RunSpeed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, speed ?? BaseSpeed);
+			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, speed ?? BaseSpeed);
 		}
 
 		Velocity = velocity;
