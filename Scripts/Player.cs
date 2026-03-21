@@ -100,4 +100,9 @@ public partial class Player : CharacterBody3D
 		_state = nextState;
 		_state.Enter(this);
 	}
+
+	public void SetAnimation(PlayerAnimations animation)
+	{
+		AnimTree.Set(MOVEMENT_TRANSITION_REQUEST, animation.ToString());
+	}
 }
