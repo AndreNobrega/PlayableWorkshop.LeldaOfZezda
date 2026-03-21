@@ -5,7 +5,7 @@ public partial class IdlePlayerState : PlayerStateBase
 {
 	public override void Enter(Player player)
 	{
-		player.AnimTree.Set(Player.MOVEMENT_TRANSITION_REQUEST, "idle");
+		player.SetAnimation(PlayerAnimations.idle);
 	}
 
 	public override void DetermineNextState(Player player)
