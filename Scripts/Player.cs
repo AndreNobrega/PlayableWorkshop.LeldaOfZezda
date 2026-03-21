@@ -11,7 +11,6 @@ public partial class Player : CharacterBody3D
 	public float JumpImpulse = 4.5f;
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
-	private AnimationPlayer _animPlayer;
 	public AnimationTree AnimTree;
 	public Vector2 MoveInput = Vector2.Zero;
 	public Vector3 MoveDirection = Vector3.Zero;
@@ -24,7 +23,6 @@ public partial class Player : CharacterBody3D
 	{
 		// Get nodes
 		Camera = GetNode<Camera3D>("SpringArm3D/Camera3D");
-		_animPlayer = GetNode<AnimationPlayer>("Mesh/AnimationPlayer");
 		AnimTree = GetNode<AnimationTree>("AnimationTree");
 		
 		_state.Enter(this);
@@ -73,7 +71,7 @@ public partial class Player : CharacterBody3D
 	/// <summary>
 	/// Update the player's velocity.
 	/// </summary>
-	/// <param name="speed">(Optional) The player's speed. If null, defaults to the character's default run speed.</param>
+	/// <param name="speed">(Optional) The player's speed. If null, defaults to the character's base speed.</param>
 	public void UpdateVelocity(Vector3 direction, float? speed = null)
 	{
 		Vector3 velocity = Velocity;
