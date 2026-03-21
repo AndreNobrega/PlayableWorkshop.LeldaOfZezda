@@ -7,7 +7,8 @@ public partial class Player : CharacterBody3D
 	public float BaseSpeed = 5.0f;
 	[Export]
 	public float RunSpeed = 4.5f;
-	public const float JUMP_VELOCITY = 4.5f;
+	[Export]
+	public float JumpImpulse = 4.5f;
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
 	private AnimationPlayer _animPlayer;

@@ -5,7 +5,8 @@ public partial class JumpPlayerState : PlayerStateBase
 {
 	public override void Enter(Player player)
 	{
-		player.Velocity = new Vector3(player.Velocity.X, Player.JUMP_VELOCITY, player.Velocity.Z);
+		player.SetAnimation(PlayerAnimations.jump_start);
+		player.Velocity = new Vector3(player.Velocity.X, player.Velocity.Y + player.JumpImpulse, player.Velocity.Z);
 	}
 
 	public override void DetermineNextState(Player player)
