@@ -5,7 +5,7 @@ public partial class IdlePlayerState : PlayerStateBase
 {
 	public override void Enter(Player player)
 	{
-		player.AnimTree.Set(Player.MOVEMENT_TRANSITION_REQUEST, "idle");
+		player.SetAnimation(PlayerAnimations.idle);
 	}
 
 	public override void DetermineNextState(Player player)
@@ -18,11 +18,5 @@ public partial class IdlePlayerState : PlayerStateBase
 
 		else if (Input.IsActionJustPressed(Inputs.MOVE_JUMP))
 			player.ChangeStateTo(PlayerStates.Jump);
-	}
-
-	public override void Update(Player player, double delta)
-	{
-		player.Velocity = player.Velocity.MoveToward(Vector3.Zero, player.BaseSpeed);
-		player.MoveAndSlide();
 	}
 }

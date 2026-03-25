@@ -7,7 +7,7 @@ public partial class RunPlayerState : PlayerStateBase
 
 	public override void Enter(Player player)
 	{
-		player.AnimTree.Set(Player.MOVEMENT_TRANSITION_REQUEST, "run");
+		player.SetAnimation(PlayerAnimations.run);
 	}
 
 	public override void DetermineNextState(Player player)

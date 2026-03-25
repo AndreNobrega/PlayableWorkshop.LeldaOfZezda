@@ -7,7 +7,7 @@ public partial class WalkPlayerState : PlayerStateBase
 
 	public override void Enter(Player player)
 	{
-		player.AnimTree.Set(Player.MOVEMENT_TRANSITION_REQUEST, "walk");
+		player.SetAnimation(PlayerAnimations.walk);
 	}
 
 	public override void DetermineNextState(Player player)
