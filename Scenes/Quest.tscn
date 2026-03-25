@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bmf7wke4jygyr"]
+
+[ext_resource type="PackedScene" uid="uid://br15i563otwqf" path="res://Scenes/player.tscn" id="1_cnarj"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cnarj"]
+
+[node name="Quest" type="Node3D" unique_id=1925122174]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=781601147]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4079375, 0, -1.1278892)
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1006634410]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=661329044]
+transform = Transform3D(5.653882, 0, 0, 0, 0.051, 0, 0, 0, 9.88846, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_cnarj")
+
+[node name="Player" parent="." unique_id=1338611252 instance=ExtResource("1_cnarj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.061178, 0)
+JumpHeight = 12.0
