@@ -8,7 +8,14 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float RunSpeed = 4.5f;
 	[Export]
-	public float JumpImpulse = 4.5f;
+	public float JumpHeight = 4.5f;
+	[Export]
+	public float JumpImpulseMult = 1.5f;
+	[Export]
+	public float GravityMultiplier = 1.5f;
+	[Export]
+	public float AirControlDegree = 1f;
+
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
 	public AnimationTree AnimTree;
@@ -95,7 +102,7 @@ public partial class Player : CharacterBody3D
 	/// </summary>
 	/// <param name="nextState">The state to change to.</param>
 	public void ChangeStateTo(PlayerStateBase nextState)
-	{
+	{		
 		_state.Exit(this);
 		_state = nextState;
 		_state.Enter(this);
