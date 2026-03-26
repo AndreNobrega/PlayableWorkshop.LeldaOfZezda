@@ -1,13 +1,70 @@
-[gd_scene format=3 uid="uid://bmf7wke4jygyr"]
+[gd_scene format=3 uid="uid://cw60k4kg2rsc0"]
 
 [ext_resource type="PackedScene" uid="uid://br15i563otwqf" path="res://Scenes/player.tscn" id="1_cnarj"]
 
+[sub_resource type="Gradient" id="Gradient_cnarj"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sem5d"]
+noise_type = 3
+seed = 8
+frequency = 0.763
+fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ibsaq"]
+width = 5000
+height = 5000
+noise = SubResource("FastNoiseLite_sem5d")
+color_ramp = SubResource("Gradient_cnarj")
+seamless = true
+invert = true
+normalize = false
+seamless_blend_skirt = 0.179
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_738lr"]
+transparency = 1
+albedo_color = Color(0, 0.5882353, 0.05490196, 1)
+albedo_texture = SubResource("NoiseTexture2D_ibsaq")
+stencil_flags = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6becq"]
+material = SubResource("StandardMaterial3D_738lr")
+
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cnarj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cnarj"]
+sky_top_color = Color(0.39322278, 0.6167288, 0.87116456, 1)
+sky_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+ground_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+
+[sub_resource type="Sky" id="Sky_8gbba"]
+sky_material = SubResource("ProceduralSkyMaterial_cnarj")
+
+[sub_resource type="Environment" id="Environment_sem5d"]
+background_mode = 2
+sky = SubResource("Sky_8gbba")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cnarj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sem5d"]
+diffuse_mode = 2
+specular_mode = 1
+albedo_color = Color(1, 1, 0, 1)
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ibsaq"]
+material = SubResource("StandardMaterial3D_sem5d")
 
 [node name="Quest" type="Node3D" unique_id=1925122174]
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=882681634]
+transform = Transform3D(0.92454606, -0.309461, 0.22237025, 0, 0.5835412, 0.81208354, -0.38107038, -0.75080866, 0.5395107, 10.400001, 14.1, 22.699999)
+shadow_enabled = true
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=781601147]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4079375, 0, -1.1278892)
+transform = Transform3D(30.097122, 0, 0, 0, 1, 0, 0, 0, 61.202908, 1.4193921, -0.012211323, -1.1305121)
+mesh = SubResource("PlaneMesh_6becq")
 skeleton = NodePath("")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1006634410]
@@ -16,6 +73,20 @@ skeleton = NodePath("")
 transform = Transform3D(5.653882, 0, 0, 0, 0.051, 0, 0, 0, 9.88846, 0, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_cnarj")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1934526486]
+environment = SubResource("Environment_sem5d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=668092483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.520917)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=662396256]
+transform = Transform3D(0.806, 0, 0, 0, -202, 1.3370225e-05, 0, -3.0501153e-05, -88.547, 0, 0.37629986, 0)
+shape = SubResource("SphereShape3D_cnarj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D" unique_id=1467025852]
+transform = Transform3D(1.2406948, 0, 0, 0, -0.004950494, -7.475039e-10, 0, 1.7052614e-09, -0.0112934355, 0, -0.0063504186, 0)
+mesh = SubResource("BoxMesh_ibsaq")
+skeleton = NodePath("../../..")
+
 [node name="Player" parent="." unique_id=1338611252 instance=ExtResource("1_cnarj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.061178, 0)
-JumpHeight = 12.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0999994, 0)
