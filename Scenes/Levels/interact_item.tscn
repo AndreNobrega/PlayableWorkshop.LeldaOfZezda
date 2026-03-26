@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://cw60k4kg2rsc0"]
+
+[ext_resource type="PackedScene" uid="uid://br15i563otwqf" path="res://Scenes/Templates/player.tscn" id="1_caqqk"]
+[ext_resource type="PackedScene" uid="uid://dxlp8ibfvoxx6" path="res://Scenes/Templates/cube.tscn" id="2_su0sj"]
+
+[sub_resource type="Gradient" id="Gradient_cnarj"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sem5d"]
+noise_type = 3
+seed = 8
+frequency = 0.763
+fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ibsaq"]
+width = 5000
+height = 5000
+noise = SubResource("FastNoiseLite_sem5d")
+color_ramp = SubResource("Gradient_cnarj")
+seamless = true
+invert = true
+normalize = false
+seamless_blend_skirt = 0.179
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_738lr"]
+transparency = 1
+albedo_color = Color(0, 0.5882353, 0.05490196, 1)
+albedo_texture = SubResource("NoiseTexture2D_ibsaq")
+stencil_flags = 2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6becq"]
+material = SubResource("StandardMaterial3D_738lr")
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cnarj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cnarj"]
+sky_top_color = Color(0.39322278, 0.6167288, 0.87116456, 1)
+sky_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+ground_horizon_color = Color(0.78205323, 0.8301798, 0.88478875, 1)
+
+[sub_resource type="Sky" id="Sky_8gbba"]
+sky_material = SubResource("ProceduralSkyMaterial_cnarj")
+
+[sub_resource type="Environment" id="Environment_sem5d"]
+background_mode = 2
+sky = SubResource("Sky_8gbba")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="interact_item" type="Node3D" unique_id=1925122174]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=882681634]
+transform = Transform3D(0.92454606, -0.309461, 0.22237025, 0, 0.5835412, 0.81208354, -0.38107038, -0.75080866, 0.5395107, 10.400001, 14.1, 22.699999)
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=781601147]
+transform = Transform3D(30.097122, 0, 0, 0, 1, 0, 0, 0, 61.202908, 1.4193921, -0.012211323, -1.1305121)
+mesh = SubResource("PlaneMesh_6becq")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Floor" unique_id=1006634410]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D" unique_id=661329044]
+transform = Transform3D(5.653882, 0, 0, 0, 0.051, 0, 0, 0, 9.88846, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_cnarj")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1934526486]
+environment = SubResource("Environment_sem5d")
+
+[node name="Player" parent="." unique_id=1338611252 instance=ExtResource("1_caqqk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0011066794, -0.01191823, 3.3372102)
+
+[node name="Cubes" type="Node" parent="." unique_id=2127420925]
+
+[node name="StaticBody3D" parent="Cubes" unique_id=852041709 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4385052, 0.5053993, -0.9956892)
+
+[node name="StaticBody3D2" parent="Cubes" unique_id=1772428387 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8770103, 1.0107986, -1.9913784)
+
+[node name="StaticBody3D3" parent="Cubes" unique_id=641377509 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8539208, 0.538301, -2.7690754)
+
+[node name="StaticBody3D4" parent="Cubes" unique_id=742589578 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.3144994, 0.538301, -3.0667288)
+
+[node name="StaticBody3D5" parent="Cubes" unique_id=897565772 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.045341, 2.1415815, -6.010342)
+
+[node name="StaticBody3D6" parent="Cubes" unique_id=1174184356 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.7198453, 0.8887206, 1.9525181)
+
+[node name="StaticBody3D7" parent="Cubes" unique_id=154957505 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.4163847, 4.476848, 5.3244147)
+
+[node name="StaticBody3D8" parent="Cubes" unique_id=1425712084 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6540349, 2.74574, 6.1785116)
+
+[node name="StaticBody3D9" parent="Cubes" unique_id=1369027723 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.476054, 1.0856209, 5.0814056)
+
+[node name="StaticBody3D10" parent="Cubes" unique_id=2052327550 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.556086, 3.803197, -3.7105808)
+
+[node name="StaticBody3D11" parent="Cubes" unique_id=1471744161 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.157293, 2.5340648, -13.674661)
+
+[node name="StaticBody3D12" parent="Cubes" unique_id=1431643224 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.7684116, 3.0011423, -0.5804875)
+
+[node name="StaticBody3D13" parent="Cubes" unique_id=149525826 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2347112, 3.286368, 18.525461)
+
+[node name="StaticBody3D14" parent="Cubes" unique_id=1907150385 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9977555, 2.8939843, 16.963383)
+
+[node name="StaticBody3D15" parent="Cubes" unique_id=161123684 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0432625, 3.693911, 15.271872)
+
+[node name="StaticBody3D16" parent="Cubes" unique_id=339766623 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.51705, 0.538301, 13.109188)
+
+[node name="StaticBody3D17" parent="Cubes" unique_id=1526222173 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.216791, 2.6337175, 6.9922504)
+
+[node name="StaticBody3D18" parent="Cubes" unique_id=1129080158 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.211353, 0.538301, 14.302107)
+
+[node name="StaticBody3D19" parent="Cubes" unique_id=1321212375 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1381384, 3.1043153, 21.086329)
+
+[node name="StaticBody3D20" parent="Cubes" unique_id=1825918623 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.8295, 4.159404, -2.7699432)
+
+[node name="StaticBody3D21" parent="Cubes" unique_id=2064520732 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.942642, 0.538301, 5.803615)
+
+[node name="StaticBody3D22" parent="Cubes" unique_id=1761745023 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.8975, 0.538301, 7.5634556)
+
+[node name="StaticBody3D23" parent="Cubes" unique_id=1847194860 instance=ExtResource("2_su0sj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.819405, 0.538301, -6.6768665)
