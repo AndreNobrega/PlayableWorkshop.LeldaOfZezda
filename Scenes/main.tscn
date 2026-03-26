@@ -61,5 +61,6 @@ FootstepSounds = ExtResource("8_fdnlq")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1369179783]
 stream = ExtResource("3_8gbba")
 autoplay = true
+bus = &"Music"
 
 [editable path="test_level"]
