@@ -108,6 +108,11 @@ public partial class Player : CharacterBody3D
 		_state.Enter(this);
 	}
 
+	/// <summary>
+	/// Transition to a different character animation.
+	/// Only works with animations defined in the Transition node of the character's animation tree.
+	/// </summary>
+	/// <param name="animation"></param>
 	public void SetAnimation(PlayerAnimations animation)
 	{
 		AnimTree.Set(MOVEMENT_TRANSITION_REQUEST, animation.ToString());
