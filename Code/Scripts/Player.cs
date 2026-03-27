@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Runtime.CompilerServices;
 
 public partial class Player : CharacterBody3D
 {
@@ -10,6 +9,7 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float RunAnimationTriggerSpeed = 4.5f;
 
+#region Jump properties
 	[ExportGroup("Jumping")]
 	[Export]
 	public float JumpHeight = 3.5f;
@@ -18,13 +18,14 @@ public partial class Player : CharacterBody3D
 	public float JumpSpeed { get; private set; }
 	public float JumpGravity { get; private set; }
 	[Export]
-	public float TimeToFall = 0.5f;
+	public float TimeToFall = 0.3f;
 	public float FallGravity { get; private set; }
 	[Export]
 	public float JumpDistance = 5.0f;
 	public float HorizontalJumpSpeed { get; private set; }
 	[Export]
-	public float MaxFallSpeed = -5.0f;
+	public float MaxFallSpeed = 50.0f;
+#endregion
 
 	public RayCast3D _interactRay;
 
@@ -94,7 +95,6 @@ public partial class Player : CharacterBody3D
 
 	private void SetMoveDirection()
 	{
-		GD.Print("Move input: " + MoveInput);
 		// Get the input direction and handle the movement/deceleration.
 		Vector3 direction = Camera.GlobalBasis * new Vector3(MoveInput.X, 0, MoveInput.Y);
 		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
@@ -190,15 +190,18 @@ public partial class Player : CharacterBody3D
 		velocity.X = move.X * HorizontalJumpSpeed;
 		velocity.Z = move.Z * HorizontalJumpSpeed;
 		
-		UpdateHorizontalVelocity(velocity);
-
+		// UpdateHorizontalVelocity(velocity, AirControlPercent);
+		
+		// Add gravity
 		velocity.Y += (!Input.IsActionPressed(Inputs.MOVE_JUMP) || velocity.Y <= 0.0)
-			? (float) Math.Max((FallGravity * delta), MaxFallSpeed)
-			: (float)(JumpGravity * delta);
+			? (float) (FallGravity * delta)
+			: (float) (JumpGravity * delta);
+
+		// Clamp fall speed for terminal velocity
+		velocity.Y = Math.Max(velocity.Y, - Math.Abs(MaxFallSpeed));
 
 		Velocity = velocity;
-
 		MoveAndSlide();
-		TurnTo(move);
+		TurnTo(MoveDirection);
 	}
 }
