@@ -16,11 +16,18 @@ public partial class FallPlayerState : PlayerStateBase
 
 	public override void Update(Player player, double delta)
 	{
-		var move = player.MoveDirection * player.MoveInput.Length();
+		var velocity = player.Velocity;
+		
+		// Add fall speed to the player's velocity...
+		velocity += player.GetGravity() * player.FallGravity * (float)delta;
+		// ... and cap their fall speed, without influencing horizontal movement.
+		velocity.Y = Math.Max(velocity.Y, player.MaxFallSpeed);
+		
+		player.Velocity = velocity;
 
-		player.Velocity += player.GetGravity() * player.GravityMultiplier * (float)delta;
+		var move = player.MoveDirection * player.MoveInput.Length();
 		//player.UpdateVelocity(move, player.BaseSpeed * 0.25f); // Give the character 25% movement control in the air
-		player.UpdateVelocity(move, player.BaseSpeed); 
+		//player.UpdateVelocity(move, player.BaseSpeed); 
 		player.MoveAndSlide();
 		player.TurnTo(move);
 	}
