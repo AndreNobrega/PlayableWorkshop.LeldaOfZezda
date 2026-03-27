@@ -9,24 +9,14 @@ public partial class JumpPlayerState : PlayerStateBase
 
 		// Putting thess calculations here instead of the Player _Ready() method,
         // so we can tweak the numbers whilst live testing, instead of it being set on startup.
-        CalculateJumpSpeed(player);
-		CalculateJumpGravity(player);
+        player.CalculateJumpSpeed();
+		player.CalculateJumpGravity();
 
         var velocity = player.Velocity;
         velocity.Y = player.JumpSpeed;
         player.Velocity = velocity;
     }
-
-    private static void CalculateJumpSpeed(Player player)
-    {
-        player.JumpSpeed = (float)((-2.0 * player.JumpHeight) / player.TimeToPeak);
-    }
-
-	private static void CalculateJumpGravity(Player player)
-	{
-		player.JumpGravity = (float)((2.0 * player.JumpHeight) / Math.Pow(player.TimeToPeak, 2.0));
-	}
-
+    
     public override void DetermineNextState(Player player)
 	{
 		if (Input.IsActionJustReleased(Inputs.MOVE_JUMP) || player.Velocity.Y <= 0)
@@ -48,6 +38,8 @@ public partial class JumpPlayerState : PlayerStateBase
 		*/
 
 		var velocity = player.Velocity;
+
 		velocity.Y += (float)(player.JumpGravity * delta);
+		player.Velocity = velocity;
 	}
 }

@@ -7,12 +7,7 @@ public partial class FallPlayerState : PlayerStateBase
 	{
 		player.SetAnimation(PlayerAnimations.fall);
 
-		CalculateFallGravity(player);
-	}
-
-	private static void CalculateFallGravity(Player player)
-	{
-		player.FallGravity = (float) ((2.0 * player.JumpHeight) / Math.Pow(player.TimeToFall, 2.0));
+		player.CalculateFallGravity();
 	}
 
 	public override void DetermineNextState(Player player)
@@ -41,7 +36,12 @@ public partial class FallPlayerState : PlayerStateBase
 		*/
 
 		var velocity = player.Velocity;
+		
 		velocity.Y += (float) (player.FallGravity * delta);
+
+		var move = player.MoveDirection * player.MoveInput.Length();
+		velocity.X = move.X * player.HorizontalJumpSpeed;
+		
 		player.Velocity = velocity;
 	}
 }

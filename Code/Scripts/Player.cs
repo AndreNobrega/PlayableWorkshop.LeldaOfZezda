@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Runtime.CompilerServices;
 
 public partial class Player : CharacterBody3D
 {
@@ -14,11 +15,14 @@ public partial class Player : CharacterBody3D
 	public float JumpHeight = 4f;
 	[Export]
 	public float TimeToPeak = 0.4f;
-	public float JumpSpeed;
-	public float JumpGravity;
+	public float JumpSpeed { get; private set; }
+	public float JumpGravity { get; private set; }
 	[Export]
 	public float TimeToFall = 0.25f;
-	public float FallGravity;
+	public float FallGravity { get; private set; }
+	[Export]
+	public float JumpDistance = 5.0f;
+	public float HorizontalJumpSpeed { get; private set; }
 
 	public RayCast3D _interactRay;
 
@@ -41,7 +45,7 @@ public partial class Player : CharacterBody3D
 		Camera = GetNode<Camera3D>("SpringArm3D/Camera3D");
 		AnimTree = GetNode<AnimationTree>("AnimationTree");
 		_interactRay = GetNode<RayCast3D>("SpringArm3D/Camera3D/RayCast3D");
-		
+
 		_state.Enter(this);
 	}
 
@@ -154,5 +158,25 @@ public partial class Player : CharacterBody3D
 	public void SetAnimation(PlayerAnimations animation)
 	{
 		AnimTree.Set(MOVEMENT_TRANSITION_REQUEST, animation.ToString());
+	}
+
+	public void CalculateJumpSpeed()
+	{
+		JumpSpeed = (float)((-2.0 * JumpHeight) / TimeToPeak);
+	}
+
+	public void CalculateJumpGravity()
+	{
+		JumpGravity = (float)((2.0 * JumpHeight) / Math.Pow(TimeToPeak, 2.0));
+	}
+
+	public void CalculateFallGravity()
+	{
+		FallGravity = (float) ((2.0 * JumpHeight) / Math.Pow(TimeToFall, 2.0));
+	}
+
+	public void CalculateHorizontalJumpSpeed()
+	{
+		HorizontalJumpSpeed = JumpDistance / (TimeToPeak + TimeToFall);
 	}
 }
