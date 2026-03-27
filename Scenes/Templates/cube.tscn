@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dxlp8ibfvoxx6"]
+
+[ext_resource type="Script" uid="uid://cmadwc634u8sf" path="res://Scripts/InteractWithItem.cs" id="1_ic4p4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sem5d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sem5d"]
+diffuse_mode = 2
+specular_mode = 1
+albedo_color = Color(1, 1, 0, 1)
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_ibsaq"]
+material = SubResource("StandardMaterial3D_sem5d")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ibsaq"]
+
+[node name="StaticBody3D" type="StaticBody3D" unique_id=852041709]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1792281816]
+auto_translate_mode = 1
+script = ExtResource("1_ic4p4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1817034336]
+transform = Transform3D(1, 0, 0, 0, 1, 5.7412087e-12, 0, -5.7412087e-12, 1, 0, 0, 0)
+visibility_parent = NodePath("../../../MeshInstance3D")
+shape = SubResource("BoxShape3D_sem5d")
+debug_color = Color(0.4763096, 0.5244491, 0.7218637, 0.41960785)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=1578388092]
+transform = Transform3D(1, 0, 0, 0, 0.9999998, 1.4210855e-14, 0, 0, 0.9999998, 0, 0, 0)
+mesh = SubResource("BoxMesh_ibsaq")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2012317418]
+shape = SubResource("BoxShape3D_ibsaq")

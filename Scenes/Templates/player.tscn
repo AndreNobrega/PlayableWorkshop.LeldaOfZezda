@@ -126,18 +126,29 @@ bones/28/rotation = Quaternion(-2.3095236e-08, -0.024645165, 2.1494154e-06, 0.99
 bones/29/rotation = Quaternion(0.99971575, 1.2521448e-08, -8.319377e-08, 0.023842245)
 bones/29/scale = Vector3(1, 1.0000001, 1.0000014)
 
-[node name="AnimationPlayer" parent="Mesh" index="1" unique_id=2138111614]
+[node name="AnimationPlayer" parent="Mesh" index="1" unique_id=158409295]
 autoplay = &"freehand_idle"
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=355571081]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8000001, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8000001, -0.27767825)
 top_level = true
 shape = SubResource("SphereShape3D_cvnsp")
 spring_length = 3.5
 script = ExtResource("3_6t5aa")
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=521907621]
+auto_translate_mode = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5)
+
+[node name="RayCast3D" type="RayCast3D" parent="SpringArm3D/Camera3D" unique_id=215069579]
+auto_translate_mode = 1
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+target_position = Vector3(0, 0, 8)
+hit_back_faces = false
+collide_with_areas = true
+collide_with_bodies = false
+debug_shape_custom_color = Color(1, 0, 0, 1)
+debug_shape_thickness = 5
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1708809167]
 root_node = NodePath("../Mesh")

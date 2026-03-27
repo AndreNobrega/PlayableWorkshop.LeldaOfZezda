@@ -19,6 +19,8 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float MaxFallSpeed = -45f;
 
+	public RayCast3D _interactRay;
+
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
 	public AnimationTree AnimTree;
@@ -28,12 +30,14 @@ public partial class Player : CharacterBody3D
 
 	// The current state the player is in.
 	PlayerStateBase _state = PlayerStates.Idle;
+	private InteractWithItem _lastInteractedItem;
 
 	public override void _Ready()
 	{
 		// Get nodes
 		Camera = GetNode<Camera3D>("SpringArm3D/Camera3D");
 		AnimTree = GetNode<AnimationTree>("AnimationTree");
+		_interactRay = GetNode<RayCast3D>("SpringArm3D/Camera3D/RayCast3D");
 		
 		_state.Enter(this);
 	}
@@ -44,16 +48,46 @@ public partial class Player : CharacterBody3D
 		// Read movement input and store it on the player.
 		MoveInput = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
 
+		if (MoveInput != Vector2.Zero)
 		// Calculate adjusted movement direction based on camera.
-		SetMoveDirection();
+			SetMoveDirection();
 
 		// Delegate to the current state.
 		_state.DetermineNextState(this);
 		_state.Update(this, delta);
 	}
+
+private InteractWithItem _lastItem; // Our "memory" variable
+
+	public override void _Process(double delta)
+	{
+		// 1. Check what the ray is hitting
+		if (_interactRay.IsColliding() && _interactRay.GetCollider() is InteractWithItem currentItem)
+		{
+			// If we are looking at a NEW item, reset the OLD one first
+			if (_lastItem != null && _lastItem != currentItem)
+			{
+				_lastItem.Dehighlight();
+			}
+
+			// Highlight the new item and save it to memory
+			currentItem.Highlight();
+			_lastItem = currentItem;
+		}
+		else
+		{
+			// 2. If the ray hits NOTHING (or a wall), reset the last item and clear memory
+			if (_lastItem != null)
+			{
+				_lastItem.Dehighlight();
+				_lastItem = null;
+			}
+		}
+	}
 	
 	private void SetMoveDirection()
 	{
+		GD.Print("Move input: " + MoveInput);
 		// Get the input direction and handle the movement/deceleration.
 		Vector3 direction = Camera.GlobalBasis * new Vector3(MoveInput.X, 0, MoveInput.Y);
 		// Remove the Y axis taken from the camera, otherwize Lunk slows down when looking downwards
