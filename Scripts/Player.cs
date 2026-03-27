@@ -3,18 +3,21 @@ using System;
 
 public partial class Player : CharacterBody3D
 {
+	[ExportGroup("Movement")]
 	[Export]
 	public float BaseSpeed = 5.0f;
 	[Export]
 	public float RunSpeed = 4.5f;
+	
+	[ExportGroup("Jumping")]
 	[Export]
-	public float JumpHeight = 4.5f;
+	public float JumpImpulse = 4.5f;
 	[Export]
-	public float JumpImpulseMult = 1.5f;
+	public float JumpGravity = 0.5f;
 	[Export]
-	public float GravityMultiplier = 1.5f;
+	public float FallGravity = 1.6f;
 	[Export]
-	public float AirControlDegree = 1f;
+	public float MaxFallSpeed = -45f;
 
 	public const string MOVEMENT_TRANSITION_REQUEST = "parameters/movement/transition_request"; //  "movement" is taken from the Transition node in the AnimationTree graph (case-sensitive!)
 	public Camera3D Camera;
