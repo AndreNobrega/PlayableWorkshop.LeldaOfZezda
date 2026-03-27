@@ -7,17 +7,18 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float BaseSpeed = 5.0f;
 	[Export]
-	public float RunSpeed = 4.5f;
-	
+	public float RunAnimationTriggerSpeed = 4.5f;
+
 	[ExportGroup("Jumping")]
 	[Export]
-	public float JumpImpulse = 4.5f;
+	public float JumpHeight = 4f;
 	[Export]
-	public float JumpGravity = 0.5f;
+	public float TimeToPeak = 0.4f;
+	public float JumpSpeed;
+	public float JumpGravity;
 	[Export]
-	public float FallGravity = 1.6f;
-	[Export]
-	public float MaxFallSpeed = -45f;
+	public float TimeToFall = 0.25f;
+	public float FallGravity;
 
 	public RayCast3D _interactRay;
 
@@ -31,6 +32,8 @@ public partial class Player : CharacterBody3D
 	// The current state the player is in.
 	PlayerStateBase _state = PlayerStates.Idle;
 	private InteractWithItem _lastInteractedItem;
+	private InteractWithItem _lastItem; // Our "memory" variable
+
 
 	public override void _Ready()
 	{
@@ -41,7 +44,7 @@ public partial class Player : CharacterBody3D
 		
 		_state.Enter(this);
 	}
-	
+
 	// Called every physics frame. Delegates update logic to the current state.
 	public override void _PhysicsProcess(double delta)
 	{
@@ -49,15 +52,13 @@ public partial class Player : CharacterBody3D
 		MoveInput = Input.GetVector(Inputs.MOVE_LEFT, Inputs.MOVE_RIGHT, Inputs.MOVE_FORWARD, Inputs.MOVE_BACK);
 
 		if (MoveInput != Vector2.Zero)
-		// Calculate adjusted movement direction based on camera.
+			// Calculate adjusted movement direction based on camera.
 			SetMoveDirection();
 
 		// Delegate to the current state.
 		_state.DetermineNextState(this);
 		_state.Update(this, delta);
 	}
-
-private InteractWithItem _lastItem; // Our "memory" variable
 
 	public override void _Process(double delta)
 	{
@@ -84,7 +85,7 @@ private InteractWithItem _lastItem; // Our "memory" variable
 			}
 		}
 	}
-	
+
 	private void SetMoveDirection()
 	{
 		GD.Print("Move input: " + MoveInput);
@@ -139,7 +140,7 @@ private InteractWithItem _lastItem; // Our "memory" variable
 	/// </summary>
 	/// <param name="nextState">The state to change to.</param>
 	public void ChangeStateTo(PlayerStateBase nextState)
-	{		
+	{
 		_state.Exit(this);
 		_state = nextState;
 		_state.Enter(this);

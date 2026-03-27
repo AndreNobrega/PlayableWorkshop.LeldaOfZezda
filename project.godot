@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Youtube_tut"
-run/main_scene="uid://cw60k4kg2rsc0"
+run/main_scene="uid://c8cw47pw4sgs2"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
