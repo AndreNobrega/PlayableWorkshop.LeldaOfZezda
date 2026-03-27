@@ -12,17 +12,19 @@ public partial class Player : CharacterBody3D
 
 	[ExportGroup("Jumping")]
 	[Export]
-	public float JumpHeight = 4f;
+	public float JumpHeight = 3.5f;
 	[Export]
 	public float TimeToPeak = 0.4f;
 	public float JumpSpeed { get; private set; }
 	public float JumpGravity { get; private set; }
 	[Export]
-	public float TimeToFall = 0.25f;
+	public float TimeToFall = 0.5f;
 	public float FallGravity { get; private set; }
 	[Export]
 	public float JumpDistance = 5.0f;
 	public float HorizontalJumpSpeed { get; private set; }
+	[Export]
+	public float MaxFallSpeed = -5.0f;
 
 	public RayCast3D _interactRay;
 
@@ -121,7 +123,7 @@ public partial class Player : CharacterBody3D
 	/// Update the player's velocity.
 	/// </summary>
 	/// <param name="speed">(Optional) The player's speed. If null, defaults to the character's base speed.</param>
-	public void UpdateVelocity(Vector3 direction, float? speed = null)
+	public void UpdateHorizontalVelocity(Vector3 direction, float? speed = null)
 	{
 		Vector3 velocity = Velocity;
 
@@ -162,21 +164,41 @@ public partial class Player : CharacterBody3D
 
 	public void CalculateJumpSpeed()
 	{
-		JumpSpeed = (float)((-2.0 * JumpHeight) / TimeToPeak);
+		JumpSpeed = (float)((2.0 * JumpHeight) / TimeToPeak);
 	}
 
 	public void CalculateJumpGravity()
 	{
-		JumpGravity = (float)((2.0 * JumpHeight) / Math.Pow(TimeToPeak, 2.0));
+		JumpGravity = (float)((-2.0 * JumpHeight) / Math.Pow(TimeToPeak, 2.0));
 	}
 
 	public void CalculateFallGravity()
 	{
-		FallGravity = (float) ((2.0 * JumpHeight) / Math.Pow(TimeToFall, 2.0));
+		FallGravity = (float) ((-2.0 * JumpHeight) / Math.Pow(TimeToFall, 2.0));
 	}
 
 	public void CalculateHorizontalJumpSpeed()
 	{
 		HorizontalJumpSpeed = JumpDistance / (TimeToPeak + TimeToFall);
+	}
+
+	public void UpdateJumpTrajectory(double delta)
+	{
+		var velocity = Velocity;
+
+		var move = MoveDirection * MoveInput.Length();
+		velocity.X = move.X * HorizontalJumpSpeed;
+		velocity.Z = move.Z * HorizontalJumpSpeed;
+		
+		UpdateHorizontalVelocity(velocity);
+
+		velocity.Y += (!Input.IsActionPressed(Inputs.MOVE_JUMP) || velocity.Y <= 0.0)
+			? (float) Math.Max((FallGravity * delta), MaxFallSpeed)
+			: (float)(JumpGravity * delta);
+
+		Velocity = velocity;
+
+		MoveAndSlide();
+		TurnTo(move);
 	}
 }

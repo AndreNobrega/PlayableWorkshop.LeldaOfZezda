@@ -30,7 +30,7 @@ public partial class RunPlayerState : PlayerStateBase
 	public override void Update(Player player, double delta)
 	{
 		var move = player.MoveDirection * player.MoveInput.Length();
-		player.UpdateVelocity(move);
+		player.UpdateHorizontalVelocity(move);
 		player.MoveAndSlide();
 		player.TurnTo(move);
 

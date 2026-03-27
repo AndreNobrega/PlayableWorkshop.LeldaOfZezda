@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://br15i563otwqf" path="res://Scenes/Templates/player.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://diui0kkamuxbw" path="res://Meshes/test_level.glb" id="2_bo1nx"]
 [ext_resource type="AudioStream" uid="uid://def5nwld7wwfg" path="res://Audio/Music/temple.mp3" id="3_8gbba"]
-[ext_resource type="Script" uid="uid://dv8w5g5jwiubm" path="res://Scripts/WorldSound.cs" id="3_jjvhh"]
+[ext_resource type="Script" uid="uid://dv8w5g5jwiubm" path="res://Code/Scripts/WorldSound.cs" id="3_jjvhh"]
 [ext_resource type="AudioStream" uid="uid://cm3uok3s0cse3" path="res://Audio/Footsteps/stone_step_sounds.tres" id="4_ynf5e"]
 [ext_resource type="AudioStream" uid="uid://c407u4kw4w4cc" path="res://Audio/Footsteps/wood_step_sounds.tres" id="5_hptm8"]
 [ext_resource type="AudioStream" uid="uid://bx0gidbrnvstj" path="res://Audio/Footsteps/sand_step_sounds.tres" id="6_d1ilt"]
@@ -38,23 +38,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0999994, 0)
 
 [node name="test_level" parent="." unique_id=576710176 instance=ExtResource("2_bo1nx")]
 
-[node name="StaticBody3D" parent="test_level/level" parent_id_path=PackedInt32Array(576710176, 1950795382) index="0" unique_id=810415114]
+[node name="StaticBody3D" parent="test_level/level" parent_id_path=PackedInt32Array(576710176, 251877459) index="0" unique_id=1723202170]
 script = ExtResource("3_jjvhh")
 FootstepSounds = ExtResource("4_ynf5e")
 
-[node name="StaticBody3D" parent="test_level/wood" parent_id_path=PackedInt32Array(576710176, 557493689) index="0" unique_id=1034833450]
+[node name="StaticBody3D" parent="test_level/wood" parent_id_path=PackedInt32Array(576710176, 1636173600) index="0" unique_id=526753713]
 script = ExtResource("3_jjvhh")
 FootstepSounds = ExtResource("5_hptm8")
 
-[node name="StaticBody3D" parent="test_level/snow" parent_id_path=PackedInt32Array(576710176, 953655890) index="0" unique_id=967604025]
+[node name="StaticBody3D" parent="test_level/snow" parent_id_path=PackedInt32Array(576710176, 1345134251) index="0" unique_id=933634914]
 script = ExtResource("3_jjvhh")
 FootstepSounds = ExtResource("6_d1ilt")
 
-[node name="StaticBody3D" parent="test_level/grass" parent_id_path=PackedInt32Array(576710176, 2087502877) index="0" unique_id=1351840981]
+[node name="StaticBody3D" parent="test_level/grass" parent_id_path=PackedInt32Array(576710176, 117918808) index="0" unique_id=306350115]
 script = ExtResource("3_jjvhh")
 FootstepSounds = ExtResource("7_6iyac")
 
-[node name="StaticBody3D" parent="test_level/dirt" parent_id_path=PackedInt32Array(576710176, 1017712477) index="0" unique_id=1013904820]
+[node name="StaticBody3D" parent="test_level/dirt" parent_id_path=PackedInt32Array(576710176, 1869473856) index="0" unique_id=625757725]
 script = ExtResource("3_jjvhh")
 FootstepSounds = ExtResource("8_fdnlq")
 
