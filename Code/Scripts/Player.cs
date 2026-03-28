@@ -190,12 +190,11 @@ public partial class Player : CharacterBody3D
 		velocity.X = move.X * HorizontalJumpSpeed;
 		velocity.Z = move.Z * HorizontalJumpSpeed;
 		
-		// UpdateHorizontalVelocity(velocity, AirControlPercent);
+		var falling = velocity.Y <= 0.0f;
+		var gravity = falling ? FallGravity : JumpGravity;	
 		
 		// Add gravity
-		velocity.Y += (!Input.IsActionPressed(Inputs.MOVE_JUMP) || velocity.Y <= 0.0)
-			? (float) (FallGravity * delta)
-			: (float) (JumpGravity * delta);
+		velocity.Y += gravity * (float) delta;
 
 		// Clamp fall speed for terminal velocity
 		velocity.Y = Math.Max(velocity.Y, - Math.Abs(MaxFallSpeed));
