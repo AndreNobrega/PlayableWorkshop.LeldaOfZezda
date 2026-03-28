@@ -13,10 +13,10 @@ public partial class IdlePlayerState : PlayerStateBase
 		if (!player.IsOnFloor())
 			player.ChangeStateTo(PlayerStates.Fall);
 				
-		else if (player.MoveInput.Length() > 0)
-			player.ChangeStateTo(PlayerStates.Walk);
-
 		else if (Input.IsActionJustPressed(Inputs.MOVE_JUMP))
 			player.ChangeStateTo(PlayerStates.Jump);
+		
+		else if (player.MoveInput.Length() > 0)
+			player.ChangeStateTo(PlayerStates.Walk);
 	}
 }
