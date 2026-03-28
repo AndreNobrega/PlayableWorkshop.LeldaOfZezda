@@ -7,5 +7,6 @@ public enum PlayerAnimations
     run, 
     jump, 
     jump_start, 
-    fall
+    fall,
+    landing_soft
 };

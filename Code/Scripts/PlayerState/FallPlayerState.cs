@@ -14,7 +14,7 @@ public partial class FallPlayerState : PlayerStateBase
 	public override void DetermineNextState(Player player)
 	{
 		if (player.IsOnFloor())
-			player.ChangeStateTo(PlayerStates.Idle);
+			player.ChangeStateTo(PlayerStates.LandingSoft);
 	}
 
 	public override void Update(Player player, double delta)

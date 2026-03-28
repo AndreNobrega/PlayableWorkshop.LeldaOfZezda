@@ -8,4 +8,5 @@ public static class PlayerStates
 	public static RunPlayerState Run {get;} = new();
 	public static FallPlayerState Fall {get;} = new();
 	public static JumpPlayerState Jump {get;} = new();
+	public static LandingSoftState LandingSoft {get;} = new();
 }
