@@ -186,7 +186,13 @@ public partial class Player : CharacterBody3D
 		HorizontalJumpSpeed = JumpDistance / (TimeToPeak + TimeToFall);
 	}
 
-	public void UpdateJumpTrajectory(double delta)
+	/// <summary>
+	/// Update the player's vertical trajectory when jumping or falling.
+	/// Different gravity models are applied to rising after a jump and falling.
+	/// If the jump button is released, rising gravity is cut off.
+	/// </summary>
+	/// <param name="delta"></param>
+	public void UpdateVerticalTrajectory(double delta)
 	{
 		var velocity = Velocity;
 
@@ -197,6 +203,7 @@ public partial class Player : CharacterBody3D
 		var falling = velocity.Y <= 0.0f;
 		var gravity = falling ? FallGravity : JumpGravity;	
 		
+		// Short hop
 		if (!falling && !Input.IsActionPressed(Inputs.MOVE_JUMP))
 		{
 			gravity *= ShortHopGravityMultiplier;

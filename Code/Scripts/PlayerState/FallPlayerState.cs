@@ -26,6 +26,6 @@ public partial class FallPlayerState : PlayerStateBase
 
 	public override void Update(Player player, double delta)
 	{
-		player.UpdateJumpTrajectory(delta);
+		player.UpdateVerticalTrajectory(delta);
 	}
 }
