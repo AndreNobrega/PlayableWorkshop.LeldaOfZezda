@@ -121,6 +121,7 @@ public partial class Player : CharacterBody3D
 		var falling = velocity.Y <= 0.0f;
 		var gravity = falling ? FallGravity : JumpGravity;	
 		
+        // Gravity boost at the jump apex
         var nearApex = !falling && velocity.Y <= ApexBoostThreshold;
         if (nearApex)
             gravity *= ApexGravityMultiplier;
