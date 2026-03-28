@@ -5,14 +5,14 @@ public partial class Player : CharacterBody3D
 {
 	[ExportGroup("Movement")]
 	[Export]
-	public float BaseSpeed = 5.0f;
+	public float BaseSpeed = 6.5f;
 	[Export]
 	public float RunAnimationTriggerSpeed = 4.5f;
 
 #region Jump properties
 	[ExportGroup("Jumping")]
 	[Export]
-	public float JumpHeight = 3.5f;
+	public float JumpHeight = 5f;
 	[Export]
 	public float TimeToPeak = 0.4f;
 	public float JumpSpeed { get; private set; }
@@ -24,7 +24,11 @@ public partial class Player : CharacterBody3D
 	public float JumpDistance = 5.0f;
 	public float HorizontalJumpSpeed { get; private set; }
 	[Export]
-	public float MaxFallSpeed = 50.0f;
+	public float MaxFallSpeed = 25.0f;
+	[Export]
+	public float ShortHopGravityMultiplier = 0.5f;
+	[Export]
+	public float ShortHopVerticalSpeedCap = 2.5f;
 #endregion
 
 	public RayCast3D _interactRay;
@@ -193,6 +197,12 @@ public partial class Player : CharacterBody3D
 		var falling = velocity.Y <= 0.0f;
 		var gravity = falling ? FallGravity : JumpGravity;	
 		
+		if (!falling && !Input.IsActionPressed(Inputs.MOVE_JUMP))
+		{
+			gravity *= ShortHopGravityMultiplier;
+			velocity.Y = Math.Min(velocity.Y, ShortHopVerticalSpeedCap);
+		}
+
 		// Add gravity
 		velocity.Y += gravity * (float) delta;
 
