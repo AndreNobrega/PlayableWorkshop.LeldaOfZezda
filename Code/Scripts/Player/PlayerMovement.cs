@@ -28,9 +28,13 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float MaxFallSpeed = 25.0f;
 	[Export]
-	public float ShortHopGravityMultiplier = 0.5f;
+	public float ShortHopGravityMultiplier = 1.5f;
 	[Export]
 	public float ShortHopVerticalSpeedCap = 2.5f;
+    [Export]
+    public float ApexBoostThreshold = 1.25f;
+    [Export]
+    public float ApexGravityMultiplier = 1.5f;
 
     private void SetMoveDirection()
 	{
@@ -117,6 +121,10 @@ public partial class Player : CharacterBody3D
 		var falling = velocity.Y <= 0.0f;
 		var gravity = falling ? FallGravity : JumpGravity;	
 		
+        var nearApex = !falling && velocity.Y <= ApexBoostThreshold;
+        if (nearApex)
+            gravity *= ApexGravityMultiplier;
+        
 		// Short hop
 		if (!falling && !Input.IsActionPressed(Inputs.MOVE_JUMP))
 		{
