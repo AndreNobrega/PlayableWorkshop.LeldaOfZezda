@@ -14,7 +14,11 @@ public partial class Player : CharacterBody3D
 
 	[ExportGroup("Jumping")]
 	[Export]
-	public float JumpHeight = 5f;
+	public float MinJumpHeight = 0.75f;
+	[Export]
+	public float MaxJumpHeight = 2f;
+	public float StartJumpHeight;
+	public float CurrentJumpHeight;
 	[Export]
 	public float TimeToPeak = 0.4f;
 	public float JumpSpeed { get; private set; }
@@ -86,17 +90,17 @@ public partial class Player : CharacterBody3D
 
     public void CalculateJumpSpeed()
 	{
-		JumpSpeed = (float)((2.0 * JumpHeight) / TimeToPeak);
+		JumpSpeed = (float)((2.0 * MaxJumpHeight) / TimeToPeak);
 	}
 
 	public void CalculateJumpGravity()
 	{
-		JumpGravity = (float)((-2.0 * JumpHeight) / Math.Pow(TimeToPeak, 2.0));
+		JumpGravity = (float)((-2.0 * MaxJumpHeight) / Math.Pow(TimeToPeak, 2.0));
 	}
 
 	public void CalculateFallGravity()
 	{
-		FallGravity = (float) ((-2.0 * JumpHeight) / Math.Pow(TimeToFall, 2.0));
+		FallGravity = (float) ((-2.0 * MaxJumpHeight) / Math.Pow(TimeToFall, 2.0));
 	}
 
 	public void CalculateHorizontalJumpSpeed()
@@ -119,15 +123,17 @@ public partial class Player : CharacterBody3D
 		velocity.Z = move.Z * HorizontalJumpSpeed;
 		
 		var falling = velocity.Y <= 0.0f;
-		var gravity = falling ? FallGravity : JumpGravity;	
+		var gravity = falling ? FallGravity : JumpGravity;
 		
         // Gravity boost at the jump apex
         var nearApex = !falling && velocity.Y <= ApexBoostThreshold;
         if (nearApex)
             gravity *= ApexGravityMultiplier;
-        
+
+		CurrentJumpHeight = Math.Max(0f, GlobalPosition.Y - StartJumpHeight);
+
 		// Short hop
-		if (!falling && !Input.IsActionPressed(Inputs.MOVE_JUMP))
+		if (!falling && !Input.IsActionPressed(Inputs.MOVE_JUMP) && CurrentJumpHeight >= MinJumpHeight)
 		{
 			gravity *= ShortHopGravityMultiplier;
 			velocity.Y = Math.Min(velocity.Y, ShortHopVerticalSpeedCap);
