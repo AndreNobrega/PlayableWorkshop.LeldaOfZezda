@@ -7,6 +7,9 @@ public partial class JumpPlayerState : PlayerStateBase
     {
         player.SetAnimation(PlayerAnimations.jump_start);
 
+		player.StartJumpHeight = player.GlobalPosition.Y;
+		player.CurrentJumpHeight = 0f;
+
 		// Putting thess calculations here instead of the Player _Ready() method,
         // so we can tweak the numbers whilst live testing, instead of it being set on startup.
         player.CalculateJumpSpeed();
