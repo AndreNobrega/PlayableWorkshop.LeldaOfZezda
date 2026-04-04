@@ -24,6 +24,7 @@ seamless_blend_skirt = 0.179
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_738lr"]
 albedo_color = Color(0, 0.5882353, 0.05490196, 1)
 albedo_texture = SubResource("NoiseTexture2D_ibsaq")
+uv1_scale = Vector3(3, 3, 3)
 stencil_flags = 2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6becq"]
@@ -52,7 +53,7 @@ transform = Transform3D(0.92454606, -0.309461, 0.22237025, 0, 0.5835412, 0.81208
 shadow_enabled = true
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=781601147]
-transform = Transform3D(30.097122, 0, 0, 0, 1, 0, 0, 0, 61.202908, 1.4193921, -0.012211323, -1.1305121)
+transform = Transform3D(30.097122, 0, 0, 0, 1, 0, 0, 0, 61.202908, 1.4193921, -0.5585518, -1.1305121)
 sorting_offset = -0.275
 mesh = SubResource("PlaneMesh_6becq")
 
