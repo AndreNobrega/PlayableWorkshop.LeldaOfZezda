@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://ooxar4eoiah6" path="res://Meshes/hero_male.glb" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://ojxj20kyndga" path="res://Code/Scripts/Player/Camera/SpringArm3d.cs" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://bmkbbvy7xgme7" path="res://Code/Scripts/Player/Sound/Footstepper.cs" id="4_vgqql"]
+[ext_resource type="Texture2D" uid="uid://cu0sn0pn8wmlw" path="res://HUD/Placeholder/keyboard_f.png" id="4_vmbbt"]
+[ext_resource type="AudioStream" uid="uid://7f1f28takm3p" path="res://Audio/Shitposts/fuck_randomizer.tres" id="6_54ljr"]
+[ext_resource type="Script" uid="uid://chgrtd3bcadrh" path="res://Code/Scripts/Player/Sound/CharacterVoice.cs" id="7_aphgx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjgbg"]
 
@@ -103,7 +106,7 @@ shape = SubResource("CapsuleShape3D_jjgbg")
 [node name="Mesh" parent="." unique_id=1712190953 instance=ExtResource("2_cvnsp")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Mesh/HeroRig_export" parent_id_path=PackedInt32Array(1712190953, 1517099986) index="0" unique_id=1298273120]
+[node name="Skeleton3D" parent="Mesh/HeroRig_export" parent_id_path=PackedInt32Array(1712190953, 979902752) index="0" unique_id=1584568119]
 bones/0/position = Vector3(0.019305158, 1.0751817, -3.41886e-08)
 bones/0/rotation = Quaternion(1, 5.056924e-15, 1.0658141e-14, 6.16095e-08)
 bones/1/rotation = Quaternion(0.7283749, -0.0008031642, 0.0010202766, 0.6851776)
@@ -136,7 +139,7 @@ bones/28/rotation = Quaternion(1.2850201e-09, -0.038318776, 2.144791e-06, 0.9992
 bones/29/rotation = Quaternion(0.99971575, 1.6202462e-10, -1.6203694e-10, 0.023842216)
 bones/29/scale = Vector3(1, 0.9999997, 1.000001)
 
-[node name="AnimationPlayer" parent="Mesh" index="1" unique_id=1736029262]
+[node name="AnimationPlayer" parent="Mesh" index="1" unique_id=1466772529]
 autoplay = &"freehand_idle"
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=355571081]
@@ -159,12 +162,31 @@ collide_with_areas = true
 collide_with_bodies = false
 
 [node name="GridContainer" type="GridContainer" parent="SpringArm3D/Camera3D" unique_id=1652397138]
-offset_right = 40.0
-offset_bottom = 40.0
+layout_direction = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -145.0
+offset_top = -65.0
+offset_right = -81.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
 
-[node name="Label" type="Label" parent="SpringArm3D/Camera3D/GridContainer" unique_id=1365572000]
+[node name="TextureRect" type="TextureRect" parent="SpringArm3D/Camera3D/GridContainer" unique_id=611237911]
 layout_mode = 2
-text = "test"
+texture = ExtResource("4_vmbbt")
+
+[node name="Label" type="Label" parent="SpringArm3D/Camera3D/GridContainer/TextureRect" unique_id=1365572000]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 10.0
+offset_right = 95.0
+offset_bottom = 33.0
+scale = Vector2(2, 2)
+text = "Fuck"
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1708809167]
 root_node = NodePath("../Mesh")
@@ -182,9 +204,11 @@ script = ExtResource("4_vgqql")
 
 [node name="DebugHud" type="CanvasLayer" parent="." unique_id=266041745]
 
-[node name="PlayerStateLabel" type="Label" parent="DebugHud" unique_id=1082251834]
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Player state: "
+[node name="CharacterVoice" type="AudioStreamPlayer3D" parent="." unique_id=1908167467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8108294, 0)
+stream = ExtResource("6_54ljr")
+volume_db = -3.0
+bus = &"SFX"
+script = ExtResource("7_aphgx")
 
 [editable path="Mesh"]

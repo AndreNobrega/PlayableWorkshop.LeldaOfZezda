@@ -14,4 +14,6 @@ public static class Inputs
 	public static readonly StringName VIEW_RIGHT = "view_right";
 
 	public static readonly StringName INTERACT = "interact";
+
+	public static readonly StringName FUCK = "fuck";
 }
