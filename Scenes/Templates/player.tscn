@@ -157,8 +157,6 @@ target_position = Vector3(0, 0, 8)
 hit_back_faces = false
 collide_with_areas = true
 collide_with_bodies = false
-debug_shape_custom_color = Color(1, 0, 0, 1)
-debug_shape_thickness = 5
 
 [node name="GridContainer" type="GridContainer" parent="SpringArm3D/Camera3D" unique_id=1652397138]
 offset_right = 40.0

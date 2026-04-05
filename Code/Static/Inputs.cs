@@ -12,4 +12,6 @@ public static class Inputs
 	public static readonly StringName VIEW_DOWN = "view_down";
 	public static readonly StringName VIEW_LEFT = "view_left";
 	public static readonly StringName VIEW_RIGHT = "view_right";
+
+	public static readonly StringName INTERACT = "interact";
 }

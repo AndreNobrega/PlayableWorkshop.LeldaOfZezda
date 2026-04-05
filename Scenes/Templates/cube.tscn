@@ -15,6 +15,90 @@ material = SubResource("StandardMaterial3D_sem5d")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ibsaq"]
 
+[sub_resource type="Animation" id="Animation_b1d17"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area3D/MeshInstance3D:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area3D/MeshInstance3D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fkuv7"]
+resource_name = "consume"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 2.0794408, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area3D/MeshInstance3D:transparency")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area3D/MeshInstance3D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.8636815, 1.4375068, 0.90554184)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kg52m"]
+_data = {
+&"RESET": SubResource("Animation_b1d17"),
+&"consume": SubResource("Animation_fkuv7")
+}
+
 [node name="StaticBody3D" type="StaticBody3D" unique_id=852041709]
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1792281816]
@@ -27,7 +111,7 @@ shape = SubResource("BoxShape3D_sem5d")
 debug_color = Color(0.4763096, 0.5244491, 0.7218637, 0.41960785)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=1578388092]
-transform = Transform3D(1, 0, 0, 0, 0.9999998, 1.4210855e-14, 0, 0, 0.9999998, 0, 0, 0)
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9999997, 0, 0, 0, 0.99999964, 0, 0, 0)
 mesh = SubResource("BoxMesh_ibsaq")
 skeleton = NodePath("../../..")
 
@@ -37,3 +121,6 @@ sorting_offset = 10.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2012317418]
 shape = SubResource("BoxShape3D_ibsaq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1904309667]
+libraries/ = SubResource("AnimationLibrary_kg52m")
