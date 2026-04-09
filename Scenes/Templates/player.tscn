@@ -4,7 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ooxar4eoiah6" path="res://Meshes/hero_male.glb" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://ojxj20kyndga" path="res://Code/Scripts/Player/Camera/SpringArm3d.cs" id="3_6t5aa"]
 [ext_resource type="Script" uid="uid://bmkbbvy7xgme7" path="res://Code/Scripts/Player/Sound/Footstepper.cs" id="4_vgqql"]
-[ext_resource type="Texture2D" uid="uid://jeip0lata6aa" path="res://Textures/Placeholder/Icons/da_zucc.png" id="5_vmbbt"]
+[ext_resource type="Script" uid="uid://baji1h5ync23l" path="res://Code/Scripts/Player/HUD/Inventory/InventoryWindow.cs" id="5_54ljr"]
+[ext_resource type="Script" uid="uid://hdeuoe7uk1sa" path="res://Code/Scripts/Player/HUD/Inventory/InventorySlot.cs" id="6_aphgx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jjgbg"]
 
@@ -191,6 +192,7 @@ offset_top = -192.5
 offset_right = 443.0
 offset_bottom = 192.5
 grow_vertical = 2
+script = ExtResource("5_54ljr")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/InventoryWindow" unique_id=873688135]
 layout_mode = 0
@@ -218,8 +220,9 @@ columns = 6
 [node name="InventorySlot" type="Button" parent="HUD/InventoryWindow/MarginContainer/VBoxContainer/SlotContainer" unique_id=1342814480]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+script = ExtResource("6_aphgx")
 
-[node name="Icon" type="TextureRect" parent="HUD/InventoryWindow/MarginContainer/VBoxContainer/SlotContainer/InventorySlot" unique_id=844391850]
+[node name="ItemIcon" type="TextureRect" parent="HUD/InventoryWindow/MarginContainer/VBoxContainer/SlotContainer/InventorySlot" unique_id=844391850]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = 8
@@ -233,10 +236,10 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_vmbbt")
+mouse_filter = 2
 expand_mode = 1
 
-[node name="Quantity" type="Label" parent="HUD/InventoryWindow/MarginContainer/VBoxContainer/SlotContainer/InventorySlot" unique_id=1250622696]
+[node name="QuantityText" type="Label" parent="HUD/InventoryWindow/MarginContainer/VBoxContainer/SlotContainer/InventorySlot" unique_id=1250622696]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -248,7 +251,6 @@ offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/outline_size = 5
-text = "69"
 horizontal_alignment = 2
 
 [editable path="Mesh"]
